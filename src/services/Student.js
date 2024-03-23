@@ -177,11 +177,11 @@ export const deleteStudentDataByAdmin = async (id, password, admin) => {
   return data;
 };
 
-export const getCurrentStats = async () => {
+export const getCurrentStats = async (selectedYear) => {
   const data = axios
-    .post(`${SERVER_URL}/getCurrentStats`)
+    .get(`${SERVER_URL}/students/count?year=${selectedYear}`)
     .then(function (response) {
-      return { success: true, data: response.data.stats };
+      return { success: true, data: response.data };
     })
     .catch(function (error) {
       console.log(error?.response?.data);
@@ -194,6 +194,7 @@ export const getStudentStatsByYear = async () => {
   const data = axios
     .post(`${SERVER_URL}/getStudentStatsByYear`)
     .then(function (response) {
+      console.log(response.data)
       return { success: true, data: response?.data };
     })
     .catch(function (error) {
@@ -203,10 +204,12 @@ export const getStudentStatsByYear = async () => {
   return data;
 };
 
-export const getStatsMonthly = async () => {
+export const getStatsMonthly = async (selectedYear) => {
+  console.log(selectedYear)
   const data = axios
-    .post(`${SERVER_URL}/getStudentStatsByMonths`)
+    .get(`${SERVER_URL}/students/timestamps?year=${selectedYear}`)
     .then(function (response) {
+      console.log(response.data)
       return { success: true, data: response?.data };
     })
     .catch(function (error) {

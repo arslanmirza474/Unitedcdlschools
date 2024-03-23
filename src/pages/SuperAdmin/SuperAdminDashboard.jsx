@@ -99,10 +99,10 @@ const SuperAdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const [selectedYear, setSelectedYear] = useState("2023"); // Initialize with default value
+  const [selectedYear, setSelectedYear] = useState("2024"); // Initialize with default value
   async function fetchStats() {
     const resultStats = await getStudentStatsByYear();
-    const data = await getStatsMonthly();
+    const data = await getStatsMonthly(selectedYear);
     setLoading(false);
     if (data?.success) {
       const monthsList = data?.data?.data;
@@ -180,7 +180,7 @@ const SuperAdminDashboard = () => {
 
   useEffect(() => {
     fetchStats();
-  }, []);
+  }, [selectedYear]);
   return (
     <div style={{}}>
       <div className="container-fluid ">
@@ -279,7 +279,6 @@ const SuperAdminDashboard = () => {
                           </div>
                         ) : (
                           <>
-                            {selectedYear === "2023" ? (
                               <Bar
                                 options={options}
                                 data={graphData}
@@ -288,17 +287,8 @@ const SuperAdminDashboard = () => {
                                   height: "400px",
                                 }}
                               />
-                            ) : (
-                              <Bar
-                                options={options}
-                                data={nullData}
-                                className="rounded-lg"
-                                style={{
-                                  height: "400px",
-                                  minWidth: "100%",
-                                }}
-                              />
-                            )}
+                           
+                         
                           </>
                         )}
                       </table>

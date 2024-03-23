@@ -11,19 +11,20 @@ import {
 import { getCurrentStats } from "../services/Student";
 
 const Stats = ({ selectedYear }) => {
+
   const [stats, setStats] = useState({
     totalRegistered: 289,
     completed: 136,
     active: 276,
   });
   const getStats = async () => {
-    const result = await getCurrentStats();
+    const result = await getCurrentStats(selectedYear);
     setStats(result.data);
     console.log(result.data);
   };
   useEffect(() => {
-    getStats();
-  }, []);
+    getStats()
+  }, [selectedYear]);
   return (
     <div className="flex flex-wrap justify-center gap-6 sm:gap-8 md:gap-12 lg:gap-16">
       <div className="flex min-w-[250px] flex-row bg-gradient-to-br from-[rgba(41,41,41,0.5)] to-[rgba(41,41,41,0.8)] p-6 rounded-xl shadow-lg">
@@ -33,7 +34,7 @@ const Stats = ({ selectedYear }) => {
         <div className="ml-4">
           <h6 className="text-4xl font-bold text-white uppercase">
             <CountUp
-              end={selectedYear === "2023" ? stats?.totalRegistered : 0}
+              end={ stats?.totalRegistered }
               start={0}
               duration={4}
             ></CountUp>
@@ -50,7 +51,7 @@ const Stats = ({ selectedYear }) => {
         <div className="ml-4">
           <h6 className="text-4xl font-bold text-white uppercase">
             <CountUp
-              end={selectedYear === "2023" ? stats.active : 0}
+              end={ stats.active }
               start={0}
               duration={4}
             ></CountUp>
@@ -66,7 +67,7 @@ const Stats = ({ selectedYear }) => {
         <div className="ml-4">
           <h6 className="text-4xl font-bold text-white uppercase">
             <CountUp
-              end={selectedYear === "2023" ? stats.completed : 0}
+              end={ stats.completed }
               start={0}
               duration={4}
             ></CountUp>

@@ -98,11 +98,13 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const [selectedYear, setSelectedYear] = useState("2023"); // Initialize with default value
+  const [selectedYear, setSelectedYear] = useState("2024"); // Initialize with default value
+  console.log(selectedYear)
   async function fetchStats() {
     const resultStats = await getStudentStatsByYear();
-    const data = await getStatsMonthly();
+    const data = await getStatsMonthly(selectedYear);
     setLoading(false);
+    console.log(data)
     if (data?.success) {
       const monthsList = data?.data?.data;
       const result = {
@@ -125,7 +127,7 @@ const AdminDashboard = () => {
         });
         result[month] = result[month] + 1;
       });
-      // console.log(Object.keys(result));
+       console.log(Object.keys(result));
 
       setOptions({
         ...options,
@@ -155,7 +157,7 @@ const AdminDashboard = () => {
           {
             label: "Student Reg By Month Data",
             data: Object.values(result),
-            backgroundColor: "rgba(41,41,41,0.8)",
+            backgroundColor: "rgb(41,41,41)",
           },
         ],
       });
@@ -163,8 +165,9 @@ const AdminDashboard = () => {
   }
 
   useEffect(() => {
+    console.log(selectedYear)
     fetchStats();
-  }, []);
+  }, [selectedYear]);
   return (
     <div style={{}}>
       <div className="container-fluid ">
@@ -243,7 +246,7 @@ const AdminDashboard = () => {
                         </div>
                       ) : (
                         <>
-                          {selectedYear === "2023" ? (
+                          {/* {selectedYear === "2023" ? ( */}
                             <Bar
                               options={options}
                               data={graphData}
@@ -251,18 +254,20 @@ const AdminDashboard = () => {
                               style={{
                                 minWidth: "100%",
                               }}
-                            />
-                          ) : (
-                            <Bar
-                              options={options}
-                              data={nullData}
-                              className="rounded-lg"
-                              style={{
-                                minWidth: "100%",
-                              }}
-                            />
-                          )}
+                             />
+                         
                         </>
+                         // ) : (
+                          //   <Bar
+                          //     options={options}
+                          //     data={nullData}
+                          //     className="rounded-lg"
+                          //     style={{
+                          //       minWidth: "100%",
+                          //     }}
+                          //   />
+                          // )
+                          // }
                       )}
                     </div>
                   </div>
